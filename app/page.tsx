@@ -19,7 +19,6 @@ export default function Home() {
       <RecentProject/>
       <Experience/>
       <Footer/>
-      
     </div>
    </main>
   );
