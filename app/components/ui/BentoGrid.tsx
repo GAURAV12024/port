@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./GrandientBg";
@@ -7,9 +7,10 @@ import { GlobeDemo } from "./GridGlode";
 import { div, span } from "framer-motion/client";
 import Lottie from "react-lottie";
 import { useState } from "react";
-import animationData from '@/data/confetti.json'
+import animationData from "@/data/confetti.json";
 import MagicButton from "./MagicButton";
 import { IoCopyOutline } from "react-icons/io5";
+import { IconCloudDemo } from "./cloud";
 
 export const BentoGrid = ({
   className,
@@ -49,13 +50,12 @@ export const BentoGridItem = ({
   titleClassName?: string;
   spareImg?: string;
 }) => {
+  const [copied, setCopied] = useState(false);
 
-  const [copied,setCopied]=useState(false);
-
-  const handleCopy =()=>{
-    navigator.clipboard.writeText('gauravdesh897@gmail.com');
+  const handleCopy = () => {
+    navigator.clipboard.writeText("gauravdesh897@gmail.com");
     setCopied(true);
-  }
+  };
   return (
     <div
       className={cn(
@@ -68,26 +68,34 @@ export const BentoGridItem = ({
           "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
       }}
     >
-      <div className={`${id === 6 && 'flex justify-center' } h-full`}>
-        <div className="w-full h-full absolute">
-          {img && (
-            <img
-              src={img}
-              alt={img}
-              className={cn(imgClassName, "object-cover , object-center")}
-            />
+      <div className={`${id === 6 && "flex justify-center"} h-full`}>
+        <div className="w-full h-full absolute flex justify-center items-center">
+          {/* Display IconCloudDemo for id 1, centered and responsive */}
+          {id === 1 ? (
+            <div className="w-full h-full flex items-center justify-center">
+              <IconCloudDemo className="w-3/4 h-3/4 md:w-2/4 md:h-2/4" />{" "}
+              {/* Adjusted to fit the grid */}
+            </div>
+          ) : (
+            img && (
+              <img
+                src={img}
+                alt={img}
+                className={cn(imgClassName, "object-cover object-center")}
+              />
+            )
           )}
         </div>
         <div
           className={`absolute right-0 -bottom-5 ${
-            id === 5 && "w-full opacity-80"
+            id === 5 && "w-full opacity-100"
           }`}
         >
           {spareImg && (
             <img
               src={spareImg}
               alt={spareImg}
-              className={"object-cover,object-center w-full h-full"}
+              className={"object-cover object-center w-full h-full"}
             />
           )}
         </div>
@@ -111,58 +119,77 @@ export const BentoGridItem = ({
             </div>
             {id === 2 && <GlobeDemo />}
             {id === 3 && (
-              <div className="flex gap-1 lg:gap-5 w-fit absolute -right-3 lg:-right-2 ">
-                <div className="flex flex-col gap-3 lg:gap-8 ">
-                  {["leftList", "rectjs", "nextjs"].map((item) => (
-                    <span
-                      key={item}
-                      className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                  <span className="py-4 px-3 rounded-lg text-center bg-[#10132e]" />
+              <div className="relative flex flex-col items-center justify-center h-full">
+                {spareImg && (
+            <img
+              src={spareImg}
+              alt={spareImg}
+              className={"absolute inset-0 object-cover object-center w-full h-full opacity-20"}
+            />
+          )}
+                <div className="relative z-10 flex flex-col items-center text-center space-y-4 p-5">
+                  <div className="font-sans font-bold text-lg lg:text-3xl max-w-96 text-white">
+                    Download My Resume
+                  </div>
+
+                  <div className="font-sans font-light text-sm lg:text-base text-[#c1c2d3]">
+                    Click the button below to get a copy of my resume.
+                  </div>
+
+                  {/* Download button */}
+                  <MagicButton
+                    title="Download My Resume"
+                    icon={<IoCopyOutline />} // Adjust the icon as needed
+                    position="left"
+                    otherClasses="!bg-[#161a31] hover:bg-[#0d0f25] text-white px-6 py-3"
+                    handleClick={() => {
+                      const link = document.createElement("a");
+                      link.href = "/path/to/your/resume.pdf"; // Replace with your actual resume path
+                      link.download = "Gaurav_Resume.pdf"; // Customize the file name
+                      link.click();
+                    }}
+                  />
                 </div>
-                <div className="flex flex-col gap-3 lg:gap-8 ">
-                  <span className="py-4 px-3 rounded-lg text-center bg-[#10132e]" />
-                  {["mongodb", "sql", "mysql"].map((item) => (
-                    <span
-                      key={item}
-                      className="py-2 lg:py-4 lg:px-3 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]"
-                    >
-                      {item}
-                    </span>
-                  ))}
+
+                {/* Lottie animation for background effect */}
+                <div className="absolute bottom-5 right-0 z-20">
+                  <Lottie
+                    options={{
+                      loop: copied,
+                      autoplay: copied,
+                      animationData: animationData,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  />
                 </div>
-                <div />
               </div>
             )}
 
-            {
-              id===6 && (
+            {id === 6 && (
               <div className="mt-5 relative">
                 <div className={`absolute -bottom-5 right-0`}>
-                  <Lottie options={
-                    {
-                      loop:copied,
-                      autoplay:copied,
-                      animationData:animationData,
-                      rendererSettings:{
-                        preserveAspectRatio:'xMidYMid slice',
-                      }
-                    }
-                  }/>
+                  <Lottie
+                    options={{
+                      loop: copied,
+                      autoplay: copied,
+                      animationData: animationData,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  />
                 </div>
-                <MagicButton title={copied?'Email copied':'Copy my email'} 
-                icon={<IoCopyOutline/>}
-                position="left"
-                otherClasses="!bg-[#161a31]"
-                handleClick={handleCopy}
-                
+                <MagicButton
+                  title={copied ? "Email copied" : "Copy my email"}
+                  icon={<IoCopyOutline />}
+                  position="left"
+                  otherClasses="!bg-[#161a31]"
+                  handleClick={handleCopy}
                 />
               </div>
-              )
-            }
+            )}
           </div>
         </div>
       </div>

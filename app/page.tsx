@@ -8,6 +8,7 @@ import Experience from "./components/Experience";
 import Footer from "./components/Footer";
 import LampPage from "./components/Home1";
 import ResponsivePage from "./components/home";
+import { IconCloudDemo } from "./components/ui/cloud";
 
 export default function Home() {
   return (
@@ -15,8 +16,8 @@ export default function Home() {
     <div className="max-w-7xl w-full">
       <FloatingNav className="" navItems={navItems}/>
       <ResponsivePage/>
-      <Grid/>
       <RecentProject/>
+      <Grid/>
       <Experience/>
       <Footer/>
     </div>
