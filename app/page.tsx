@@ -7,7 +7,7 @@ import { navItems } from "@/data";
 import Experience from "./components/Experience";
 import Footer from "./components/Footer";
 import LampPage from "./components/Home1";
-import ResponsivePage from "./components/home";
+import ResponsivePage from "./components/Home";
 import { IconCloudDemo } from "./components/ui/cloud";
 
 export default function Home() {
