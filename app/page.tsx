@@ -1,29 +1,23 @@
-import { FaHome } from "react-icons/fa";
-import Hero from "./components/Home2";
+import React from 'react';
 import { FloatingNav } from "./components/ui/FloatingNavbar";
-import Grid from "./components/Grid";
+import ResponsivePage from "./components/Home";
 import RecentProject from "./components/RecentProject";
-import { navItems } from "@/data";
+import Grid from "./components/Grid";
 import Experience from "./components/Experience";
 import Footer from "./components/Footer";
-import LampPage from "./components/Home1";
-import ResponsivePage from "./components/Home";
-import { IconCloudDemo } from "./components/ui/cloud";
+import { navItems } from "@/data";
 
 export default function Home() {
   return (
-   <main className="relative bg-slate-950 flex justify-center items-center flex-col mx-auto sm:px-10 px-5 overflow-clip">
-    <div className="max-w-7xl w-full">
-      <FloatingNav className="" navItems={navItems}/>
-      <ResponsivePage/>
-      <RecentProject/>
-      <Grid/>
-      <Experience/>
-      <Footer/>
-    </div>
-   </main>
+    <main className="relative bg-slate-950 flex flex-col items-center min-h-screen overflow-x-hidden">
+      <div className="max-w-7xl w-full px-5 sm:px-10">
+        <FloatingNav navItems={navItems} />
+        <ResponsivePage />
+        <RecentProject />
+        <Grid />
+        <Experience />
+        <Footer />
+      </div>
+    </main>
   );
 }
-
-
-

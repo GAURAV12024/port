@@ -1,47 +1,40 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import LampPage from "./Home1";
-import Hero from "./Home2";
+import dynamic from 'next/dynamic';
 
-const ResponsivePage = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [hasWindow, setHasWindow] = useState(false); // To check if `window` is available
+const LampPage = dynamic(() => import("./Home1"), { ssr: false });
+const Hero = dynamic(() => import("./Home2"), { ssr: false });
+
+const MOBILE_BREAKPOINT = 767;
+
+const ResponsivePage: React.FC = () => {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setHasWindow(true); // `window` is available, so we set the state
-    }
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    };
+
+    // Set initial screen size
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  useEffect(() => {
-    if (hasWindow) {
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 767);
-        setIsDesktop(window.innerWidth >= 768);
-      };
-
-      // Set initial screen size
-      handleResize();
-
-      // Add event listener for window resize
-      window.addEventListener("resize", handleResize);
-
-      // Cleanup the event listener on component unmount
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-  }, [hasWindow]);
-
-  if (!hasWindow) return null; // Prevent rendering on the server
+  if (isMobile === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      {isMobile && <Hero />}
-      {isDesktop && <LampPage />}
-      {!isMobile && !isDesktop && <div>Loading...</div>}
+      {isMobile ? <Hero /> : <LampPage />}
     </div>
   );
 };

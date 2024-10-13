@@ -1,7 +1,8 @@
 'use client'
 
-import { projects } from "@/data";
 import React from "react";
+import Image from "next/image";
+import { projects } from "@/data";
 import { PinContainer } from "./ui/3d-pin";
 import { FaLocationArrow, FaGithub } from "react-icons/fa";
 
@@ -20,9 +21,9 @@ function RecentProject() {
             <PinContainer title={title} href={link}>
               <div className="relative flex items-center justify-center sm:w-[570px] w-[80vw] overflow-hidden sm:h-[40vh] h-[30vh] mb-10">
                 <div className="relative w-full h-full overflow-hidden lg:rounded-3xl bg-[#13162d]">
-                  <img src="/bg.png" alt="bgimg" className="w-full h-full object-cover" />
+                  <Image src="/bg.png" alt="background" layout="fill" objectFit="cover" />
                 </div>
-                <img src={img} alt={title} className="z-10 absolute bottom-0 max-w-full max-h-full" />
+                <Image src={img} alt={title} layout="fill" objectFit="contain" className="z-10" />
               </div>
               <h1 className="font-bold lg:text-2xl md:text-xl text-base line-clamp-1">
                 {title}
@@ -38,7 +39,7 @@ function RecentProject() {
                       className="border border-white/[0.2] rounded-full bg-black lg:w-8 lg:h-8 w-7 h-7 flex justify-center items-center"
                       style={{ transform: `translateX(-${4 * index}px)` }}
                     >
-                      <img src={icon} alt={icon} className="p-1.5" />
+                      <Image src={icon} alt={`icon-${index}`} width={24} height={24} className="p-1.5" />
                     </div>
                   ))}
                 </div>
@@ -48,10 +49,10 @@ function RecentProject() {
                       href={githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-center border border-white/[0.2] rounded-md bg-black px-3 py-1.5 hover:bg-white/10 transition-colors flex-1 sm:flex-initial "
+                      onClick={(e: React.MouseEvent<HTMLAnchorElement>) => e.stopPropagation()}
+                      className="flex items-center justify-center border border-white/[0.2] rounded-md bg-black px-3 py-1.5 hover:bg-white/10 transition-colors flex-1 sm:flex-initial"
                     >
-                      <FaGithub className="text-lg text-white  mr-2" />
+                      <FaGithub className="text-lg text-white mr-2" />
                       <span className="text-white hover:text-green-300 text-sm font-medium">GitHub</span>
                     </a>
                   )}
@@ -59,7 +60,7 @@ function RecentProject() {
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => e.stopPropagation()}
                     className="flex items-center justify-center border border-white/[0.2] rounded-md bg-black px-3 py-1.5 hover:bg-white/10 transition-colors flex-1 sm:flex-initial"
                   >
                     <FaLocationArrow className="text-lg text-purple mr-2" />
