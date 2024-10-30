@@ -1,6 +1,6 @@
 import React from 'react';
 import { FloatingNav } from "./components/ui/FloatingNavbar";
-import ResponsivePage from "./components/Home";
+import ResponsivePage from "./components/Home3";
 import RecentProject from "./components/RecentProject";
 import Grid from "./components/Grid";
 import Experience from "./components/Experience";
