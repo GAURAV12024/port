@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image"; // Import Next.js Image component
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./GrandientBg";
 import { GlobeDemo } from "./GridGlode";
@@ -8,8 +9,8 @@ import Lottie from "react-lottie";
 import { IoCopyOutline } from "react-icons/io5";
 import { IconCloudDemo } from "./cloud";
 import MagicButton from "./MagicButton";
+import animationData from "@/data/confetti.json"; // Import animation data directly
 
-// Import types for better type safety
 interface BentoGridProps {
   className?: string;
   children?: React.ReactNode;
@@ -58,15 +59,13 @@ export const BentoGridItem: React.FC<BentoGridItemProps> = ({
     navigator.clipboard.writeText("gauravdesh897@gmail.com");
     setCopied(true);
     
-    // Reset copied state after 2 seconds
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Default Lottie options
   const lottieOptions = {
     loop: copied,
     autoplay: copied,
-    animationData: require("@/data/confetti.json"),
+    animationData: animationData,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -90,10 +89,11 @@ export const BentoGridItem: React.FC<BentoGridItemProps> = ({
             </div>
           ) : (
             img && (
-              <img
+              <Image
                 src={img}
                 alt={title?.toString() || "Grid Image"}
                 className={cn(imgClassName, "object-cover object-center")}
+                layout="fill"
               />
             )
           )}
@@ -101,10 +101,11 @@ export const BentoGridItem: React.FC<BentoGridItemProps> = ({
 
         {id === 5 && spareImg && (
           <div className="absolute inset-0 w-full h-full opacity-100">
-            <img
+            <Image
               src={spareImg}
               alt="Spare Image"
               className="object-cover object-center w-full h-full"
+              layout="fill"
             />
           </div>
         )}
@@ -131,10 +132,11 @@ export const BentoGridItem: React.FC<BentoGridItemProps> = ({
             {id === 3 && (
               <div className="relative flex flex-col items-center justify-center h-full">
                 {spareImg && (
-                  <img
+                  <Image
                     src={spareImg}
                     alt="Background"
                     className="absolute inset-0 object-cover object-center w-full h-full opacity-20"
+                    layout="fill"
                   />
                 )}
                 <div className="relative z-10 flex flex-col items-center text-center space-y-4 p-5">
@@ -153,7 +155,7 @@ export const BentoGridItem: React.FC<BentoGridItemProps> = ({
                     otherClasses="!bg-[#161a31] hover:bg-[#0d0f25] text-white px-6 py-3"
                     handleClick={() => {
                       const link = document.createElement("a");
-                      link.href = "/Gaurav_Resume.pdf"; // Ensure this path is correct
+                      link.href = "/Gaurav_Resume.pdf"; // Make sure the path is correct
                       link.download = "Gaurav_Resume.pdf";
                       link.click();
                     }}

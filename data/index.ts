@@ -55,7 +55,7 @@ export const gridItems = [
     imgClassName: "absolute right-0 bottom-0 md:w-96 w-50",
     titleClassName: "justify-center md:justify-start lg:justify-center text-black",
     img: "",
-    spareImg: "profileimg.jpeg",
+    spareImg: "/profileimg.jpeg",
   },
   {
     id: 6,

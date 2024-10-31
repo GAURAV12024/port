@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLocationArrow } from "react-icons/fa";
+import Link from "next/link"; // Import the Link component
 import MagicButton from "./ui/MagicButton";
 import { Spotlight } from "./ui/Spotlight";
 import { TextGenerateEffect } from "./ui/text-generate-effect";
@@ -8,6 +9,7 @@ import { BackgroundBeamsWithCollision } from "./ui/Beams";
 const Hero: React.FC = () => {
   return (
     <div className="relative pb-20 pt-36 h-screen" id="home">
+      {/* Background and Effects */}
       <div className="absolute inset-0">
         <Spotlight
           className="-top-40 -left-10 md:-left-32 md:-top-20 h-screen"
@@ -24,6 +26,7 @@ const Hero: React.FC = () => {
         <div className="absolute pointer-events-none inset-0 dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
       </div>
 
+      {/* Content */}
       <div className="relative z-10 flex justify-center items-center h-full">
         <BackgroundBeamsWithCollision>
           <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
@@ -32,18 +35,18 @@ const Hero: React.FC = () => {
             </h2>
             <TextGenerateEffect 
               className="text-center text-[40px] md:text-5xl lg:text-6xl" 
-              words="Transforming concepts into seamless User experiences"
+              words="Transforming concepts into seamless user experiences"
             />
             <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
               Hi, I&apos;m Gaurav, a MERN developer
             </p>
-            <a href="#about">
+            <Link href="#about" passHref>
               <MagicButton 
-                title="show my work" 
-                icon={<FaLocationArrow/>} 
+                title="Show My Work" 
+                icon={<FaLocationArrow />} 
                 position="right"
               />
-            </a>
+            </Link>
           </div>
         </BackgroundBeamsWithCollision>
       </div>
