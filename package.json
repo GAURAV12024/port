@@ -8,12 +8,15 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "engine-strict": false,
   "dependencies": {
     "@react-three/drei": "^9.112.1",
     "@react-three/fiber": "^8.17.7",
     "clsx": "^2.1.1",
     "core-js": "^3.39.0",
     "framer-motion": "^11.11.7",
+    "glob": "^11.0.0",
+    "lottie-react": "^2.4.0",
     "mini-svg-data-uri": "^1.4.4",
     "next": "^14.2.15",
     "next-themes": "^0.3.0",
