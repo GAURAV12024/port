@@ -1,23 +1,34 @@
 "use client";
 
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./GrandientBg";
-
 import { GlobeDemo } from "./GridGlode";
-import { div, span } from "framer-motion/client";
 import Lottie from "react-lottie";
-import { useState } from "react";
-import animationData from "@/data/confetti.json";
-import MagicButton from "./MagicButton";
 import { IoCopyOutline } from "react-icons/io5";
 import { IconCloudDemo } from "./cloud";
+import MagicButton from "./MagicButton";
 
-export const BentoGrid = ({
-  className,
-  children,
-}: {
+// Import types for better type safety
+interface BentoGridProps {
   className?: string;
   children?: React.ReactNode;
+}
+
+interface BentoGridItemProps {
+  className?: string;
+  id: number;
+  title?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  img?: string;
+  imgClassName?: string;
+  titleClassName?: string;
+  spareImg?: string;
+}
+
+export const BentoGrid: React.FC<BentoGridProps> = ({ 
+  className, 
+  children 
 }) => {
   return (
     <div
@@ -31,7 +42,7 @@ export const BentoGrid = ({
   );
 };
 
-export const BentoGridItem = ({
+export const BentoGridItem: React.FC<BentoGridItemProps> = ({
   className,
   id,
   title,
@@ -40,22 +51,27 @@ export const BentoGridItem = ({
   imgClassName,
   titleClassName,
   spareImg,
-}: {
-  className?: string;
-  id: number;
-  title?: string | React.ReactNode;
-  description?: string | React.ReactNode;
-  img?: string;
-  imgClassName?: string;
-  titleClassName?: string;
-  spareImg?: string;
 }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText("gauravdesh897@gmail.com");
     setCopied(true);
+    
+    // Reset copied state after 2 seconds
+    setTimeout(() => setCopied(false), 2000);
   };
+
+  // Default Lottie options
+  const lottieOptions = {
+    loop: copied,
+    autoplay: copied,
+    animationData: require("@/data/confetti.json"),
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <div
       className={cn(
@@ -63,68 +79,64 @@ export const BentoGridItem = ({
         className
       )}
       style={{
-        background: "rgb(4,7,29)",
-        backgroundColor:
-          "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
+        background: "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
       }}
     >
-      <div className={`${id === 6 && "flex justify-center"} h-full`}>
+      <div className={`${id === 6 ? "flex justify-center" : ""} h-full`}>
         <div className="w-full h-full absolute flex justify-center items-center">
-          {/* Display IconCloudDemo for id 1, centered and responsive */}
           {id === 1 ? (
             <div className="w-full h-full flex items-center justify-center">
-              <IconCloudDemo className="w-3/4 h-3/4 md:w-2/4 md:h-2/4" />{" "}
-              {/* Adjusted to fit the grid */}
+              <IconCloudDemo className="w-3/4 h-3/4 md:w-2/4 md:h-2/4" />
             </div>
           ) : (
             img && (
               <img
                 src={img}
-                alt={img}
+                alt={title?.toString() || "Grid Image"}
                 className={cn(imgClassName, "object-cover object-center")}
               />
             )
           )}
         </div>
-        {id === 5 && (
+
+        {id === 5 && spareImg && (
           <div className="absolute inset-0 w-full h-full opacity-100">
-            {spareImg && (
-              <img
-                src={spareImg}
-                alt={spareImg}
-                className="object-cover object-center w-full h-full"
-              />
-            )}
+            <img
+              src={spareImg}
+              alt="Spare Image"
+              className="object-cover object-center w-full h-full"
+            />
           </div>
         )}
+
         <div>
-          {id === 6 && (
-            <BackgroundGradientAnimation>
-              {/* <div className="absolute z-50 flex items-center justify-center text-white font-bold" /> */}
-            </BackgroundGradientAnimation>
-          )}
+          {id === 6 && <BackgroundGradientAnimation />}
+
           <div
             className={cn(
               titleClassName,
-              "group-hover/bento:translate-x-2 transition duration-200 relative md:h-full min-h-40 flex flex-col px-5 p-5 lg:p-10  "
+              "group-hover/bento:translate-x-2 transition duration-200 relative md:h-full min-h-40 flex flex-col px-5 p-5 lg:p-10"
             )}
           >
             <div className="font-sans font-light text-[#000000] text-sm md:text-xs lg:text-base z-10">
               {description}
             </div>
+
             <div className="font-sans font-bold text-lg lg:text-3xl max-w-96 z-10">
               {title}
             </div>
+
             {id === 2 && <GlobeDemo />}
+
             {id === 3 && (
               <div className="relative flex flex-col items-center justify-center h-full">
                 {spareImg && (
-            <img
-              src={spareImg}
-              alt={spareImg}
-              className={"absolute inset-0 object-cover object-center w-full h-full opacity-20"}
-            />
-          )}
+                  <img
+                    src={spareImg}
+                    alt="Background"
+                    className="absolute inset-0 object-cover object-center w-full h-full opacity-20"
+                  />
+                )}
                 <div className="relative z-10 flex flex-col items-center text-center space-y-4 p-5">
                   <div className="font-sans font-bold text-lg lg:text-3xl max-w-96 text-white">
                     Download My Resume
@@ -134,32 +146,25 @@ export const BentoGridItem = ({
                     Click the button below to get a copy of my resume.
                   </div>
 
-                  {/* Download button */}
                   <MagicButton
                     title="Download My Resume"
-                    icon={<IoCopyOutline />} // Adjust the icon as needed
+                    icon={<IoCopyOutline />}
                     position="left"
                     otherClasses="!bg-[#161a31] hover:bg-[#0d0f25] text-white px-6 py-3"
                     handleClick={() => {
                       const link = document.createElement("a");
-                      link.href = "/path/to/your/resume.pdf"; // Replace with your actual resume path
-                      link.download = "Gaurav_Resume.pdf"; // Customize the file name
+                      link.href = "/Gaurav_Resume.pdf"; // Ensure this path is correct
+                      link.download = "Gaurav_Resume.pdf";
                       link.click();
                     }}
                   />
                 </div>
 
-                {/* Lottie animation for background effect */}
                 <div className="absolute bottom-5 right-0 z-20">
                   <Lottie
-                    options={{
-                      loop: copied,
-                      autoplay: copied,
-                      animationData: animationData,
-                      rendererSettings: {
-                        preserveAspectRatio: "xMidYMid slice",
-                      },
-                    }}
+                    options={lottieOptions}
+                    height={100}
+                    width={100}
                   />
                 </div>
               </div>
@@ -167,20 +172,15 @@ export const BentoGridItem = ({
 
             {id === 6 && (
               <div className="mt-5 relative">
-                <div className={`absolute -bottom-5 right-0`}>
+                <div className="absolute -bottom-5 right-0">
                   <Lottie
-                    options={{
-                      loop: copied,
-                      autoplay: copied,
-                      animationData: animationData,
-                      rendererSettings: {
-                        preserveAspectRatio: "xMidYMid slice",
-                      },
-                    }}
+                    options={lottieOptions}
+                    height={100}
+                    width={100}
                   />
                 </div>
                 <MagicButton
-                  title={copied ? "Email copied" : "Copy my email"}
+                  title={copied ? "Email Copied" : "Copy My Email"}
                   icon={<IoCopyOutline />}
                   position="left"
                   otherClasses="!bg-[#161a31]"
@@ -194,3 +194,5 @@ export const BentoGridItem = ({
     </div>
   );
 };
+
+export default BentoGridItem;
